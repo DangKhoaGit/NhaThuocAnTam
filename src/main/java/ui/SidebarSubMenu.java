@@ -12,6 +12,7 @@ public class SidebarSubMenu extends JPanel {
     private JPanel subMenuPanel;
     private boolean expanded = false;
     private ArrayList<JButton> subItems = new ArrayList<>();
+    private boolean isActive = false;
 
     public SidebarSubMenu(String title, FontAwesome icon) {
         setLayout(new BorderLayout());
@@ -64,30 +65,34 @@ public class SidebarSubMenu extends JPanel {
         subBtn.setFocusPainted(false);
         subBtn.setBackground(Color.WHITE);
         subBtn.setForeground(new Color(51, 51, 51));
-
-        // Chiều rộng luôn bằng mainButton (250px), chiều cao 45px cho thoáng
         subBtn.setPreferredSize(new Dimension(250, 45));
         subBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
-
-        // Tăng padding để thoáng hơn: cách trái 55px (rộng hơn)
         subBtn.setBorder(BorderFactory.createEmptyBorder(8, 55, 8, 15));
-
         subBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Hover effect
         subBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                subBtn.setBackground(new Color(241, 245, 249));
+                if (!isSubItemActive(subBtn)) {
+                    subBtn.setBackground(new Color(241, 245, 249));
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                subBtn.setBackground(Color.WHITE);
+                if (!isSubItemActive(subBtn)) {
+                    subBtn.setBackground(Color.WHITE);
+                }
             }
         });
 
-        subBtn.addActionListener(listener);
+        // Khi click, active subBtn và gọi listener
+        subBtn.addActionListener(e -> {
+            setSubItemActive(subBtn);
+            if (listener != null) listener.actionPerformed(e);
+        });
+
         subMenuPanel.add(subBtn);
         subItems.add(subBtn);
 
@@ -95,6 +100,26 @@ public class SidebarSubMenu extends JPanel {
         subMenuPanel.repaint();
     }
 
+    // Đặt subBtn là active, các subItem khác không active
+    private void setSubItemActive(JButton activeBtn) {
+        for (JButton btn : subItems) {
+            if (btn == activeBtn) {
+                btn.setBackground(new Color(217, 234, 249)); // màu active
+                btn.setForeground(new Color(0, 102, 204)); // màu chữ active
+                btn.setFont(btn.getFont().deriveFont(Font.BOLD));
+            } else {
+                btn.setBackground(Color.WHITE);
+                btn.setForeground(new Color(51, 51, 51));
+                btn.setFont(btn.getFont().deriveFont(Font.PLAIN));
+            }
+        }
+    }
+
+    // Kiểm tra subBtn có đang active không
+    private boolean isSubItemActive(JButton btn) {
+        Color activeBg = new Color(217, 234, 249);
+        return btn.getBackground().equals(activeBg);
+    }
 
     private void toggleMenu() {
         expanded = !expanded;
@@ -108,5 +133,26 @@ public class SidebarSubMenu extends JPanel {
         subMenuPanel.setVisible(expanded);
         revalidate();
         repaint();
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
+        if (active) {
+            mainButton.setBackground(new Color(217, 234, 249));
+            mainButton.setForeground(new Color(0, 102, 204));
+            mainButton.setFont(mainButton.getFont().deriveFont(Font.BOLD));
+        } else {
+            mainButton.setBackground(new Color(248, 250, 252));
+            mainButton.setForeground(new Color(51, 51, 51));
+            mainButton.setFont(mainButton.getFont().deriveFont(Font.BOLD));
+        }
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public JButton getMainButton() {
+        return mainButton;
     }
 }
