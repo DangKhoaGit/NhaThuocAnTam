@@ -43,6 +43,11 @@ public class GiaoDienChinh extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatLightLaf());
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(GiaoDienChinh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         SwingUtilities.invokeLater(() -> new GiaoDienChinh().setVisible(true));
     }
 }

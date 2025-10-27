@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import ui.HoaDon.TimHoaDon;
+import ui.PhieuNhap.TimPhieuNhap;
 import ui.Thuoc.TimThuoc;
 
 public class SidebarMenu extends JPanel {
@@ -71,7 +72,7 @@ public class SidebarMenu extends JPanel {
         addSidebarSubMenu(khuyenMaiMenu);
 
         SidebarSubMenu phieuNhapMenu = new SidebarSubMenu("Phiếu nhập", FontAwesome.FILE);
-        phieuNhapMenu.addSubItem("Tìm phiếu nhập", FontAwesome.SEARCH, e -> parent.setContent(new TimThuoc()));
+        phieuNhapMenu.addSubItem("Tìm phiếu nhập", FontAwesome.SEARCH, e -> parent.setContent(new TimPhieuNhap()));
         phieuNhapMenu.addSubItem("Thêm phiếu nhập", FontAwesome.PLUS, e -> parent.setContent(new TimThuoc()));
         phieuNhapMenu.addSubItem("Cập phiếu nhập", FontAwesome.REFRESH, e -> parent.setContent(new TimThuoc()));
         addSidebarSubMenu(phieuNhapMenu);
