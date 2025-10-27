@@ -5,5 +5,12 @@ package ui.Thuoc;/*
  * @version: 1.0
  */
 
-public class TimThuoc {
+import javax.swing.*;
+import java.awt.*;
+
+public class TimThuoc extends JPanel {
+    public TimThuoc() {
+        setLayout(new BorderLayout());
+        add(new JLabel("Đây là trang chủ"), BorderLayout.CENTER);
+    }
 }
